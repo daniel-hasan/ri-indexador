@@ -165,15 +165,13 @@ class FileIndex(Index):
         #Para eficiencia, todo o codigo deve ser feito com o garbage
         #collector desabilitado
         gc.disable()
-
+        
         #ordena pelo term_id, doc_id
         
         
         ### Abra um arquivo novo faça a ordenação externa: compar sempre a primeira posição
         ### da lista com a primeira possição do arquivo usando os métodos next_from_list e next_from_file
         ### para armazenar no novo indice ordenado
-
-
 
         gc.enable()
 
