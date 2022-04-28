@@ -23,7 +23,7 @@ class Index:
 
 
     @property
-    def vocabulary(self) -> List:
+    def vocabulary(self) -> List[str]:
         return []
 
     @property
