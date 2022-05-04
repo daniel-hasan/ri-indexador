@@ -7,7 +7,7 @@ import tracemalloc
 import unittest
 from random import randrange,seed
 
-
+from util.performance import CheckPerformance
 
 
 
@@ -18,6 +18,7 @@ class PerformanceTest(unittest.TestCase):
 
     def setUp(self):
         self.index = HashIndex()
+        self.perfomance = CheckPerformance()
 
     def create_vocabulary(self):
         vocabulary = []
@@ -27,19 +28,11 @@ class PerformanceTest(unittest.TestCase):
                     vocabulary.append(f"{chr(i)}{chr(j)}{chr(k)}")
         return vocabulary
 
-    def print_status(self,count:int,total:int):
-
-        delta = datetime.now()-self.time
-        porc_complete = math.floor(count/total*100)
-        current, peak = tracemalloc.get_traced_memory()
-
-        clear_output(wait=True)
-        print(f"Memoria usada: {current / 10**6:,} MB; Máximo {peak / 10**6:,} MB")
-        print(f"Indexando ocorrencia #{count:,}/{total:,} ({porc_complete}%)")
-        print(f"Tempo gasto: {delta.total_seconds()}s")
 
     def index_words(self):
         count = 0
+        total = PerformanceTest.NUM_DOCS*PerformanceTest.NUM_TERM_PER_DOC
+        self.perfomance = CheckPerformance(count_total=total, clear_output=True)
         seed(10)
         words = []
         for doc_i in range(PerformanceTest.NUM_DOCS):
@@ -48,8 +41,8 @@ class PerformanceTest(unittest.TestCase):
                 str_term = self.vocabulary[idx_term]
                 self.index.index(str_term, doc_i, (count%10)+1)
                 #indiceTeste.index(vocabulario[(count+1)%15625], d, (count%10)+1);
-                if count%50000==0:
-                    self.print_status(count,PerformanceTest.NUM_DOCS*PerformanceTest.NUM_TERM_PER_DOC)
+                if count%10000==0:
+                    self.perfomance.print_step("Indexação de termo", count)
 
                 count+=1
         return count
@@ -57,14 +50,10 @@ class PerformanceTest(unittest.TestCase):
     def test_performance(self):
 
 
-        print("Criando vocabulário...")
         self.vocabulary = self.create_vocabulary()
 
-        tracemalloc.start()
-        self.time = datetime.now()
         total = self.index_words()
-        self.print_status(total,total)
-        tracemalloc.stop()
+
 
 import time
 class FilePerformanceTest(PerformanceTest):
