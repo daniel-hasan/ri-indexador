@@ -144,6 +144,10 @@ class FileIndex(Index):
         # metodos auxiliares para verifica o tamanho da lst_occurrences_tmp
         self.idx_tmp_occur_last_element  = -1
         self.idx_tmp_occur_first_element = 0
+        
+    def get_tmp_occur_size(self):
+        """Retorna o tamanho da lista temporária de ocorrências"""
+        return self.idx_tmp_occur_last_element - self.idx_tmp_occur_first_element + 1
 
     def get_term_id(self, term: str):
         return self.dic_index[term].term_id
