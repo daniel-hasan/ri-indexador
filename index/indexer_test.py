@@ -27,7 +27,7 @@ class IndexerTest(unittest.TestCase):
 
         self.assertTrue(wiki_idx.document_count>60000)
         self.assertEqual(len(wiki_idx.get_occurrence_list("casa")), 7095)
-        self.assertEqual(len(wiki_idx.get_occurrence_list("belo")), 1634)
-        self.assertEqual(len(wiki_idx.get_occurrence_list("horizonte")), 1310)
+        self.assertEqual(len(wiki_idx.get_occurrence_list("belo")), 1573)
+        self.assertEqual(len(wiki_idx.get_occurrence_list("horizonte")), 1251)
 if __name__ == "__main__":
     unittest.main()
